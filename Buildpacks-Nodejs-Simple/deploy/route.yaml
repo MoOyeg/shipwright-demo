@@ -1,0 +1,15 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: nodejs-simple
+  namespace: buildpacks-nodejs-simple
+  labels:
+    Build-Name: Buildpacks-Nodejs-Simple
+spec:
+  to:
+    kind: Service
+    name: nodejs-simple
+    weight: 100
+  port:
+    targetPort: 8080
+  wildcardPolicy: None

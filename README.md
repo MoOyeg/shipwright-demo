@@ -29,34 +29,51 @@ kubectl apply -f https://github.com/shipwright-io/build/releases/download/v0.10.
 
 ### Simple NodeJs Build using default ClusterBuildStrategy:
 
-- Create required objects.Please note example add's privileged scc to pipline sa for
+- Create required objects.Please note example add's privileged scc to pipline sa for Build and default sa for deploy
 
   ```bash
-    oc apply -k ./shipwright-demo/Buildpacks-Nodejs-Simple/
+  oc apply -k ./shipwright-demo/Buildpacks-Nodejs-Simple/
   ```
 
 - Start Build by creating BuildRun
 
   ```bash
-    oc apply -f ./shipwright-demo/Buildpacks-Nodejs-Simple/buildrun.yaml
+  oc apply -f ./shipwright-demo/Buildpacks-Nodejs-Simple/buildrun.yaml
   ```
 
 - We can confirm creation and status of Objects and Tekton TaskRun
 
   ```bash
-    oc get buildrun.shipwright.io -l Build-Name=Buildpacks-Nodejs-Simple
-    oc get taskrun -l buildrun.shipwright.io/name=buildpack-nodejs-buildrun-demo -n buildpacks-nodejs-simple
+  oc get buildrun.shipwright.io -l Build-Name=Buildpacks-Nodejs-Simple
+
+  oc get taskrun -l buildrun.shipwright.io/name=buildpack-nodejs-buildrun-demo -n buildpacks-nodejs-simple
   ```
 
 - We can also read logs from TaskRun Pod
 
   ```bash
-    oc logs $(oc get pods -l buildrun.shipwright.io/name=buildpack-nodejs-buildrun-demo -o name) --all-containers
+  oc logs $(oc get pods -l buildrun.shipwright.io/name=buildpack-nodejs-buildrun-demo -o name) --all-containers
+  ```
+
+- Optional: Deploy App Sample(Requires Privileged SCC)
+
+  ```bash
+  oc apply -k ./shipwright-demo/Buildpacks-Nodejs-Simple/deploy
+  ```
+
+- Optional: Test App Sample
+
+  ```bash
+  curl -k -v $(oc get route -l Build-Name=Buildpacks-Nodejs-Simple -o jsonpath='{.items[0].spec.host}')
   ```
 
 - Clean Up
 
   ```bash
-    oc delete -f ./shipwright-demo/Buildpacks-Nodejs-Simple/buildrun.yaml
-    oc delete -k ./shipwright-demo/Buildpacks-Nodejs-Simple/
+  oc delete -f ./shipwright-demo/Buildpacks-Nodejs-Simple/buildrun.yaml
+
+  oc delete -k ./shipwright-demo/Buildpacks-Nodejs-Simple/deploy
+
+  oc delete -k ./shipwright-demo/Buildpacks-Nodejs-Simple/
+
   ```

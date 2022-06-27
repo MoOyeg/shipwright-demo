@@ -1,0 +1,5 @@
+resources:
+- clusterrole-privileged.yaml
+- deployment.yaml
+- service.yaml
+- route.yaml

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-simple
+  namespace: buildpacks-nodejs-simple
+  labels:
+    Build-Name: Buildpacks-Nodejs-Simple
+spec:
+  selector:
+    matchLabels:
+      app: nodejs-simple
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nodejs-simple
+    spec:
+      containers:
+        - name: nodejs
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/buildpacks-nodejs-simple/nodejs-simple:latest
+          securityContext:
+            privileged: true
+          ports:
+            - containerPort: 8080
