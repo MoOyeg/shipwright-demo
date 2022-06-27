@@ -1,0 +1,16 @@
+apiVersion: shipwright.io/v1alpha1
+kind: Build
+metadata:
+  name: buildpack-nodejs-build
+  namespace: buildpacks-nodejs-simple
+  labels:
+    Build-Name: Buildpacks-Nodejs-Simple
+spec:
+  source:
+    url: https://github.com/shipwright-io/sample-nodejs
+    contextDir: source-build
+  strategy:
+    name: buildpacks-v3
+    kind: ClusterBuildStrategy
+  output:
+    image: image-registry.openshift-image-registry.svc:5000/buildpacks-nodejs-simple/nodejs-simple

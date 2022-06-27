@@ -1,0 +1,10 @@
+apiVersion: shipwright.io/v1alpha1
+kind: BuildRun
+metadata:
+  name: buildpack-nodejs-buildrun-demo
+  namespace: buildpacks-nodejs-simple
+  labels:
+    Build-Name: Buildpacks-Nodejs-Simple
+spec:
+  buildRef:
+    name: buildpack-nodejs-build

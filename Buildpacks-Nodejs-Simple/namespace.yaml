@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: buildpacks-nodejs-simple
+  annotations:
+    openshift.io/description: "BuildPackv3 Sample for Shipwright"
+    openshift.io/display-name: "Buildpacks-Nodejs-Simple"
+  labels:
+    Build-Name: Buildpacks-Nodejs-Simple
+spec: {}

@@ -1,0 +1,8 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: nodejs-simple
+  namespace: buildpacks-nodejs-simple
+  labels:
+    Build-Name: Buildpacks-Nodejs-Simple
+#By default should generate a repo name of image-registry.openshift-image-registry.svc:5000/buildpacks-nodejs-simple/nodejs-simple
