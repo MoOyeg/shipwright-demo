@@ -1,0 +1,10 @@
+apiVersion: shipwright.io/v1alpha1
+kind: BuildRun
+metadata:
+  name: s2i-python-simple-demo
+  namespace: s2i-python-simple
+  labels:
+    Build-Name: S2i-Python-Simple
+spec:
+  buildRef:
+    name: s2i-python-simple-build

@@ -1,0 +1,24 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: s2i-python-simple
+  namespace: s2i-python-simple
+  labels:
+    Build-Name: S2i-Python-Simple
+    app: s2i-python-simple
+spec:
+  ports:
+    - name: 8080-tcp
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+  internalTrafficPolicy: Cluster
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    app: s2i-python-simple
+    deployment: s2i-python-simple
+status:
+  loadBalancer: {}
+

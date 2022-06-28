@@ -1,0 +1,17 @@
+apiVersion: shipwright.io/v1alpha1
+kind: Build
+metadata:
+  name: s2i-python-simple-build
+  namespace: s2i-python-simple
+  labels:
+    Build-Name: S2i-Python-Simple
+spec:
+  source:
+    url: https://github.com/MoOyeg/testFlask.git
+  strategy:
+    name: source-to-image
+    kind: ClusterBuildStrategy
+  builder:
+    image: image-registry.openshift-image-registry.svc:5000/openshift/python:3.8
+  output:
+    image: image-registry.openshift-image-registry.svc:5000/s2i-python-simple/python-simple

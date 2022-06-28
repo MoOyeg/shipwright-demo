@@ -1,0 +1,16 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: s2i-python-simple
+  namespace: s2i-python-simple
+  labels:
+    Build-Name: S2i-Python-Simple
+    app: s2i-python-simple
+spec:
+  to:
+    kind: Service
+    name: s2i-python-simple
+    weight: 100
+  port:
+    targetPort: 8080-tcp
+  wildcardPolicy: None

@@ -27,7 +27,7 @@ kubectl apply -f https://github.com/shipwright-io/build/releases/download/v0.10.
 
 ## Demos
 
-### Simple NodeJs Build using default ClusterBuildStrategy:
+### Simple NodeJs Build using default BuildPackv3 ClusterBuildStrategy:
 
 - Create required objects.Please note example add's privileged scc to pipline sa for Build and default sa for deploy
 
@@ -44,15 +44,15 @@ kubectl apply -f https://github.com/shipwright-io/build/releases/download/v0.10.
 - We can confirm creation and status of Objects and Tekton TaskRun
 
   ```bash
-  oc get buildrun.shipwright.io -l Build-Name=Buildpacks-Nodejs-Simple
+  oc get buildrun.shipwright.io -l Build-Name=Buildpacks-Nodejs-Simple -n buildpacks-nodejs-simple
 
-  oc get taskrun -l buildrun.shipwright.io/name=buildpack-nodejs-buildrun-demo -n buildpacks-nodejs-simple
+  oc get taskrun -l build.shipwright.io/name=s2i-python-simple-build -n buildpacks-nodejs-simple
   ```
 
 - We can also read logs from TaskRun Pod
 
   ```bash
-  oc logs $(oc get pods -l buildrun.shipwright.io/name=buildpack-nodejs-buildrun-demo -o name) --all-containers
+  oc logs -n buildpacks-nodejs-simple $(oc get pods -l buildrun.shipwright.io/name=buildpack-nodejs-buildrun-demo -o name -n buildpacks-nodejs-simple) --all-containers
   ```
 
 - Optional: Deploy App Sample(Requires Privileged SCC)
@@ -75,5 +75,56 @@ kubectl apply -f https://github.com/shipwright-io/build/releases/download/v0.10.
   oc delete -k ./shipwright-demo/Buildpacks-Nodejs-Simple/deploy
 
   oc delete -k ./shipwright-demo/Buildpacks-Nodejs-Simple/
+
+  ```
+
+### Simple Python Build using default SourceToImage ClusterBuildStrategy
+
+- Create required objects.Please note example add's privileged scc to pipline sa for Build and default sa for deploy
+
+  ```bash
+  oc apply -k ./shipwright-demo/S2i-Python-Simple/
+  ```
+
+- Start Build by creating BuildRun
+
+  ```bash
+  oc apply -f ./shipwright-demo/S2i-Python-Simple/buildrun.yaml
+  ```
+
+- We can confirm creation and status of Objects and Tekton TaskRun
+
+  ```bash
+  oc get buildrun.shipwright.io -l Build-Name=S2i-Python-Simple -n s2i-python-simple
+
+  oc get taskrun -l build.shipwright.io/name=s2i-python-simple-build -n s2i-python-simple
+  ```
+
+- We can also read logs from TaskRun Pod
+
+  ```bash
+  oc logs -n s2i-python-simple $(oc get pods -l build.shipwright.io/name=s2i-python-simple-build -o name -n s2i-python-simple) --all-containers 
+  ```
+
+- Optional: Deploy App Sample
+
+  ```bash
+  oc apply -k ./shipwright-demo/S2i-Python-Simple/deploy -n s2i-python-simple
+  ```
+
+- Optional: Test App Sample
+
+  ```bash
+  curl -k -v $(oc get route -n s2i-python-simple -l Build-Name=S2i-Python-Simple -o jsonpath='{.items[0].spec.host}')
+  ```
+
+- Clean Up
+
+  ```bash
+  oc delete -f ./shipwright-demo/S2i-Python-Simple/buildrun.yaml
+
+  oc delete -k ./shipwright-demo/S2i-Python-Simple/deploy
+
+  oc delete -k ./shipwright-demo/S2i-Python-Simple
 
   ```

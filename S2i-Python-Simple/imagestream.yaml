@@ -1,0 +1,8 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: python-simple
+  namespace: s2i-python-simple
+  labels:
+    Build-Name: S2i-Python-Simple
+#By default should generate a repo name of image-registry.openshift-image-registry.svc:5000/s2i-python-simple/python-simple

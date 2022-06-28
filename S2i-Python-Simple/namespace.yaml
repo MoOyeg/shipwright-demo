@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: s2i-python-simple
+  annotations:
+    openshift.io/description: "S2i Sample for Shipwright"
+    openshift.io/display-name: "S2i-Python-Simple"
+  labels:
+    Build-Name: S2i-Python-Simple
+spec: {}
